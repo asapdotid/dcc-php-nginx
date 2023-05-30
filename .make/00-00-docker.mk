@@ -23,7 +23,7 @@ DOCKER_COMPOSE_COMMAND:= \
  DOCKER_NAMESPACE=$(DOCKER_NAMESPACE) \
  DOCKER_IMAGE=$(DOCKER_IMAGE) \
  DOCKER_IMAGE_TAG=$(DOCKER_IMAGE_TAG) \
- docker compose --env-file $(DOCKER_ENV_FILE)
+ docker compose -p $(DOCKER_PROJECT_NAME) --env-file $(DOCKER_ENV_FILE)
 
 DOCKER_COMPOSE:=$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE)
 DOCKER_COMPOSE_PROXY:=$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_PROXY_FILE)
@@ -68,17 +68,18 @@ validate-docker-variables:
 	@$(if $(DOCKER_NAMESPACE),,$(error DOCKER_NAMESPACE is undefined))
 	@$(if $(DOCKER_IMAGE),,$(error DOCKER_IMAGE is undefined - Did you run make-init?))
 	@$(if $(DOCKER_IMAGE_TAG),,$(error DOCKER_IMAGE_TAG is undefined - Did you run make-init?))
+	@$(if $(DOCKER_PROJECT_NAME),,$(error DOCKER_PROJECT_NAME is undefined - Did you run make-init?))
 
 compose/.env:
 	@cp $(DOCKER_ENV_FILE).example $(DOCKER_ENV_FILE)
 
 .PHONY: compose-up
 compose-up: validate-compose-variables ## Create and start all docker containers. To create/start only a specific container, use DOCKER_SERVICE_NAME=<service>
-	$(DOCKER_COMPOSE) up -d $(DOCKER_SERVICE_NAME)
+	@$(DOCKER_COMPOSE) up -d $(DOCKER_SERVICE_NAME)
 
 .PHONY: compose-proxy-up
 compose-proxy-up: validate-docker-variables ## Create and start all docker proxy containers. To create/start only a specific container, use DOCKER_SERVICE_NAME=<service>
-	$(DOCKER_COMPOSE_PROXY) up -d $(DOCKER_SERVICE_NAME)
+	@$(DOCKER_COMPOSE_PROXY) up -d $(DOCKER_SERVICE_NAME)
 
 .PHONY: compose-restart
 compose-restart: validate-compose-variables ## Restart docker containers.

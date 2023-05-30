@@ -2,7 +2,7 @@
 
 .PHONY: artisan
 artisan: ## Run Artisan commands. Specify the command e.g. via ARGS="migrate --seed"
-	$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan $(ARGS);
+	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan $(ARGS);
 
 .PHONY: set-setup
 set-setup: ## Setup Larvel application
@@ -25,12 +25,12 @@ set-init:
 
 .PHONY: set-key
 set-key: ## Regenerating the Application Key
-	$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan key:generate;
+	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan key:generate;
 
 .PHONY: set-migrate
 set-migrate: ## Artisan migrate database with arguments ARGS="--seed"
-	$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan migrate $(ARGS);
+	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan migrate $(ARGS);
 
 .PHONY: set-seed
 set-seed: ## Artisan Seeder with arguments ARGS="--class=Users"
-	$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan db:seed $(ARGS);
+	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan db:seed $(ARGS);
