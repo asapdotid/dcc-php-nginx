@@ -20,7 +20,8 @@ services:
       - WEB_ALIAS_DOMAIN=${APPLICATION_WEB_ALIAS_DOMAIN}
     volumes:
       - "${APPLICATION_PROJECT_DIR}:/app"
-      - "${APPLICATION_SUPERVISOR_DIR}/worker.conf:/opt/docker/etc/supervisor.d/worker.conf"
+      - "${APPLICATION_CONFIG_DIR}/nginx/10-location-custom.conf:/opt/docker/etc/nginx/vhost.common.d/10-location-custom.conf:ro"
+      - "${APPLICATION_CONFIG_DIR}/supervisor/worker.conf:/opt/docker/etc/supervisor.d/worker.conf:ro"
     labels:
       - traefik.enable=true
       - traefil.docker.network=proxy
