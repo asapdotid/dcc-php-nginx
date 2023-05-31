@@ -1,6 +1,6 @@
 # Container names
 ## must match the names used in the docker-composer.yml files
-DOCKER_SERVICE_NAME_APPLICATION:=application
+DOCKER_SERVICE_APPLICATION_NAME:=application
 
 # FYI:
 # Naming convention for images is $(DOCKER_REGISTRY)/$(DOCKER_NAMESPACE)/$(DOCKER_IMAGE):$(DOCKER_IMAGE_TAG)
@@ -24,13 +24,15 @@ DOCKER_COMPOSE_COMMAND:= \
  DOCKER_IMAGE_TAG=$(DOCKER_IMAGE_TAG) \
  docker compose -p $(DOCKER_PROJECT_NAME) --env-file $(DOCKER_ENV_FILE)
 
-DOCKER_COMPOSE:=$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE)
-DOCKER_COMPOSE_PROXY:=$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_PROXY_FILE)
-
+DOCKER_COMPOSE?=
 EXECUTE_IN_ANY_CONTAINER?=
 EXECUTE_IN_APPLICATION_CONTAINER?=
 
-DOCKER_SERVICE_NAME?=
+ifeq ($(DOCKER_PROJECT_PROXY),true)
+	DOCKER_COMPOSE:=$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_PROXY_FILE)
+else
+    DOCKER_COMPOSE:=$(DOCKER_COMPOSE_COMMAND) -f $(DOCKER_COMPOSE_FILE)
+endif
 
 # we can pass EXECUTE_IN_CONTAINER=true to a make invocation in order to execute the target in a docker container.
 # Caution: this only works if the command in the target is prefixed with a $(EXECUTE_IN_*_CONTAINER) variable.
@@ -47,7 +49,7 @@ ifndef EXECUTE_IN_CONTAINER
 	endif
 endif
 ifeq ($(EXECUTE_IN_CONTAINER),true)
-	EXECUTE_IN_APPLICATION_CONTAINER:=$(DOCKER_COMPOSE) exec -T $(DOCKER_SERVICE_NAME_APPLICATION)
+	EXECUTE_IN_APPLICATION_CONTAINER:=$(DOCKER_COMPOSE) exec -T $(DOCKER_SERVICE_APPLICATION_NAME)
 endif
 
 ##@ [Docker: Compose commands]
@@ -68,54 +70,31 @@ validate-docker-variables:
 	@$(if $(DOCKER_IMAGE),,$(error DOCKER_IMAGE is undefined - Did you run make-init?))
 	@$(if $(DOCKER_IMAGE_TAG),,$(error DOCKER_IMAGE_TAG is undefined - Did you run make-init?))
 	@$(if $(DOCKER_PROJECT_NAME),,$(error DOCKER_PROJECT_NAME is undefined - Did you run make-init?))
+	@$(if $(DOCKER_PROJECT_PROXY),,$(error DOCKER_PROJECT_PROXY is undefined - Did you run make-init?))
 
 compose/.env:
 	@cp $(DOCKER_ENV_FILE).example $(DOCKER_ENV_FILE)
 
 .PHONY: compose-up
-compose-up: validate-compose-variables ## Create and start all docker containers. To create/start only a specific container, use DOCKER_SERVICE_NAME=<service>
-	@$(DOCKER_COMPOSE) up -d $(DOCKER_SERVICE_NAME)
-
-.PHONY: compose-proxy-up
-compose-proxy-up: validate-docker-variables ## Create and start all docker proxy containers. To create/start only a specific container, use DOCKER_SERVICE_NAME=<service>
-	@$(DOCKER_COMPOSE_PROXY) up -d $(DOCKER_SERVICE_NAME)
+compose-up: validate-compose-variables ## Create and start all docker containers. To create/start only a specific container, use DOCKER_SERVICE_APPLICATION_NAME=<service>
+	@$(DOCKER_COMPOSE) up -d $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-restart
 compose-restart: validate-compose-variables ## Restart docker containers.
-	@$(DOCKER_COMPOSE) restart $(DOCKER_SERVICE_NAME)
-
-.PHONY: compose-proxy-restart
-compose-proxy-restart: validate-compose-variables ## Restart docker proxy containers.
-	@$(DOCKER_COMPOSE_PROXY) restart $(DOCKER_SERVICE_NAME)
+	@$(DOCKER_COMPOSE) restart $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-down
 compose-down: validate-compose-variables ## Stop and remove all docker containers.
 	@$(DOCKER_COMPOSE) down --remove-orphans -v
 
-.PHONY: compose-proxy-down
-compose-proxy-down: validate-compose-variables ## Stop and remove all docker proxy containers.
-	@$(DOCKER_COMPOSE_PROXY) down --remove-orphans -v
-
 .PHONY: compose-config
 compose-config: validate-compose-variables ## List the configuration docker compose
-	@$(DOCKER_COMPOSE) config $(DOCKER_SERVICE_NAME)
-
-.PHONY: compose-proxy-config
-compose-proxy-config: validate-compose-variables ## List the proxy configuration docker compose
-	@$(DOCKER_COMPOSE_PROXY) config $(DOCKER_SERVICE_NAME)
+	@$(DOCKER_COMPOSE) config $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-logs
 compose-logs: validate-compose-variables ## Logs docker containers.
-	@$(DOCKER_COMPOSE) logs --tail=100 -f $(DOCKER_SERVICE_NAME)
-
-.PHONY: compose-proxy-logs
-compose-proxy-logs: validate-compose-variables ## Logs docker containers.
-	@$(DOCKER_COMPOSE_PROXY) logs --tail=100 -f $(DOCKER_SERVICE_NAME)
+	@$(DOCKER_COMPOSE) logs --tail=100 -f $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-ps
 compose-ps: validate-compose-variables ## Docker composer PS containers.
-	@$(DOCKER_COMPOSE) ps $(DOCKER_SERVICE_NAME)
-
-.PHONY: compose-proxy-ps
-compose-proxy-ps: validate-compose-variables ## Docker composer PS containers.
-	@$(DOCKER_COMPOSE_PROXY) ps $(DOCKER_SERVICE_NAME)
+	@$(DOCKER_COMPOSE) ps $(DOCKER_SERVICE_APPLICATION_NAME)
