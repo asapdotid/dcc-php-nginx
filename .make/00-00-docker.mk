@@ -3,18 +3,17 @@
 DOCKER_SERVICE_NAME_APPLICATION:=application
 
 # FYI:
-# Naming convention for images is $(DOCKER_REGISTRY)/$(DOCKER_NAMESPACE)/$(DOCKER_SERVICE_NAME)-$(ENV)
+# Naming convention for images is $(DOCKER_REGISTRY)/$(DOCKER_NAMESPACE)/$(DOCKER_IMAGE):$(DOCKER_IMAGE_TAG)
 # e.g.                      docker.io/asapdotid/php-nginx:8.1
 # $(DOCKER_REGISTRY)     -----^           ^         ^      ^    docker.io
 # $(DOCKER_NAMESPACE)    -----------------^         ^      ^    asapdotid
-# $(DOCKER_SERVICE_NAME) ---------------------------^      ^    php-nginx
+# $(DOCKER_IMAGE)        ---------------------------^      ^    php-nginx
 # $(DOCKER_IMAGE_TAG)    ----------------------------------^    8.1
 
 DOCKER_DIR:=${PWD}/src
 DOCKER_ENV_FILE:=$(DOCKER_DIR)/.env
-DOCKER_COMPOSE_DIR:=$(DOCKER_DIR)/compose
-DOCKER_COMPOSE_FILE:=$(DOCKER_COMPOSE_DIR)/docker-compose.yml
-DOCKER_COMPOSE_PROXY_FILE:=$(DOCKER_COMPOSE_DIR)/docker-compose.proxy.yml
+DOCKER_COMPOSE_FILE:=$(DOCKER_DIR)/compose.yml
+DOCKER_COMPOSE_PROXY_FILE:=$(DOCKER_DIR)/compose.proxy.yml
 
 # we need a couple of environment variables for docker-compose so we define a make-variable that we can
 # then reference later in the Makefile without having to repeat all the environment variables
