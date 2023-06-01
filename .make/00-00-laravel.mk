@@ -1,14 +1,10 @@
 ##@ [Laravel: Setup]
 
-.PHONY: artisan
-artisan: ## Run Artisan commands. Specify the command e.g. via ARGS="migrate --seed"
-	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan $(ARGS);
-
 .PHONY: set-setup
 set-setup: ## Setup Larvel application
 	"$(MAKE)" set-init
 	"$(MAKE)" composer ARGS="install"
-	"$(MAKE)" set-key
+	"$(MAKE)" artisan-key
 
 ## Usage:
 ## set-init
@@ -23,14 +19,20 @@ set-init:
 	    done
 	@echo "Please update your .env file with your settings"
 
-.PHONY: set-key
-set-key: ## Regenerating the Application Key
+##@ [Laravel: Artisan]
+
+.PHONY: artisan
+artisan: ## Run Artisan commands. Specify the command e.g. via ARGS="migrate --seed"
+	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan $(ARGS);
+
+.PHONY: artisan-key
+artisan-key: ## Regenerating the Application Key
 	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan key:generate;
 
-.PHONY: set-migrate
-set-migrate: ## Artisan migrate database with arguments ARGS="--seed"
+.PHONY: artisan-migrate
+artisan-migrate: ## Artisan migrate database with arguments ARGS="--seed"
 	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan migrate $(ARGS);
 
-.PHONY: set-seed
-set-seed: ## Artisan Seeder with arguments ARGS="--class=Users"
+.PHONY: artisan-seed
+artisan-seed: ## Artisan Seeder with arguments ARGS="--class=Users"
 	@$(EXECUTE_IN_APPLICATION_CONTAINER) php artisan db:seed $(ARGS);
