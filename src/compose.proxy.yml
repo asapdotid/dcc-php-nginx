@@ -8,6 +8,7 @@ networks:
 services:
   application:
     image: ${DOCKER_NAMESPACE}/${DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}
+    restart: unless-stopped
     expose:
       - 80
     networks:
