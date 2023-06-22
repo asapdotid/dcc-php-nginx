@@ -8,14 +8,18 @@ Base image from `Webdevops` **PHP** and **PHP-NGINX**
 
 ## Docker Compose environment variables
 
-```
+```ini
+APPLICATION_USER_ID=1000
+APPLICATION_GROUP_ID=1000
 APPLICATION_HTTP_PORT=80
 APPLICATION_HTTPS_PORT=43
 APPLICATION_PHP_POST_MAX_SIZE=50M
 APPLICATION_PHP_UPLOAD_MAX_FILESIZE=50M
 APPLICATION_SERVICE_NGINX_CLIENT_MAX_BODY_SIZE=50M
-APPLICATION_PROJECT_APP_DIR=/home/application/laravel
-APPLICATION_CONFIG_DIR=${PWD}/src/config
+## For MS Windows example: //c/Users/asap/application/php-app
+APPLICATION_PROJECT_APP_DIR=/home/application/php-app
+APPLICATION_CONFIG_DIR=./src/config
+## For Laravel app: APPLICATION_WEB_DOCUMENT_ROOT=/app/public
 APPLICATION_WEB_APP_DOCUMENT_ROOT=/app
 APPLICATION_WEB_APP_ALIAS_DOMAIN=app.jogjascript.com
 ```
@@ -25,6 +29,24 @@ APPLICATION_WEB_APP_ALIAS_DOMAIN=app.jogjascript.com
 ```bash
 docker network create proxy
 docker network create secure
+```
+
+## Makefile commands
+
+```bash
+make help
+```
+
+Initial make commands:
+
+```bash
+make init
+```
+
+Initial docker compose commands:
+
+```bash
+make compose-init
 ```
 
 ## Web environment variables

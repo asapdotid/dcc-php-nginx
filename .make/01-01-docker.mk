@@ -1,20 +1,3 @@
-# Container names
-## must match the names used in the docker-composer.yml files
-DOCKER_SERVICE_APPLICATION_NAME:=application
-
-# FYI:
-# Naming convention for images is $(DOCKER_REGISTRY)/$(DOCKER_NAMESPACE)/$(DOCKER_IMAGE):$(DOCKER_IMAGE_TAG)
-# e.g.                      docker.io/asapdotid/php-nginx:8.1
-# $(DOCKER_REGISTRY)     -----^           ^         ^      ^    docker.io
-# $(DOCKER_NAMESPACE)    -----------------^         ^      ^    asapdotid
-# $(DOCKER_IMAGE)        ---------------------------^      ^    php-nginx
-# $(DOCKER_IMAGE_TAG)    ----------------------------------^    8.1
-
-DOCKER_DIR:=${PWD}/src
-DOCKER_ENV_FILE:=$(DOCKER_DIR)/.env
-DOCKER_COMPOSE_FILE:=$(DOCKER_DIR)/compose.yml
-DOCKER_COMPOSE_PROXY_FILE:=$(DOCKER_DIR)/compose.proxy.yml
-
 # we need a couple of environment variables for docker-compose so we define a make-variable that we can
 # then reference later in the Makefile without having to repeat all the environment variables
 DOCKER_COMPOSE_COMMAND:= \
@@ -76,25 +59,37 @@ compose/.env:
 	@cp $(DOCKER_ENV_FILE).example $(DOCKER_ENV_FILE)
 
 .PHONY: compose-up
-compose-up: validate-compose-variables ## Create and start all docker containers. To create/start only a specific container, use DOCKER_SERVICE_APPLICATION_NAME=<service>
+compose-up: validate-compose-variables ## Create and start docker containers.
+	@echo ""
+	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}up${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) up -d $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-restart
 compose-restart: validate-compose-variables ## Restart docker containers.
+	@echo ""
+	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}restart${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) restart $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-down
-compose-down: validate-compose-variables ## Stop and remove all docker containers.
+compose-down: validate-compose-variables ## Stop and remove docker containers.
+	@echo ""
+	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}down${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) down --remove-orphans -v
 
 .PHONY: compose-config
 compose-config: validate-compose-variables ## List the configuration docker compose
+	@echo ""
+	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}config${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) config $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-logs
 compose-logs: validate-compose-variables ## Logs docker containers.
+	@echo ""
+	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}logs${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) logs --tail=100 -f $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-ps
 compose-ps: validate-compose-variables ## Docker composer PS containers.
+	@echo ""
+	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}ps${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) ps $(DOCKER_SERVICE_APPLICATION_NAME)
