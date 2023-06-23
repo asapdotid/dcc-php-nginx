@@ -60,36 +60,30 @@ compose/.env:
 
 .PHONY: compose-up
 compose-up: validate-compose-variables ## Create and start docker containers.
-	@echo ""
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}up${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) up -d $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-restart
 compose-restart: validate-compose-variables ## Restart docker containers.
-	@echo ""
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}restart${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) restart $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-down
 compose-down: validate-compose-variables ## Stop and remove docker containers.
-	@echo ""
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}down${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) down --remove-orphans -v
 
 .PHONY: compose-config
 compose-config: validate-compose-variables ## List the configuration docker compose
-	@echo ""
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}config${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) config $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-logs
 compose-logs: validate-compose-variables ## Logs docker containers.
-	@echo ""
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}logs${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) logs --tail=100 -f $(DOCKER_SERVICE_APPLICATION_NAME)
 
 .PHONY: compose-ps
 compose-ps: validate-compose-variables ## Docker composer PS containers.
-	@echo ""
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}ps${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) ps $(DOCKER_SERVICE_APPLICATION_NAME)

@@ -54,5 +54,4 @@ init:
 	@for variable in $(ENVS); do \
 		echo $$variable | tee -a ./.make/.env; \
 		done
-	@echo ""
 	@echo "${YELLOW}Please update your${RESET} ${GREEN}.make/.env${RESET} ${YELLOW}file with your settings${RESET}"

@@ -23,7 +23,7 @@ services:
       - WEB_DOCUMENT_ROOT=${APPLICATION_WEB_DOCUMENT_ROOT:-/app}
       - WEB_ALIAS_DOMAIN=${APPLICATION_WEB_ALIAS_DOMAIN}
     volumes:
-      - "${APPLICATION_PROJECT_DIR}:/app"
+      - ${APPLICATION_PROJECT_DIR}:/app
       ## Uncomment if using laravel (custom your config)
-      # - "${APPLICATION_CONFIG_DIR}/nginx/10-location-custom.conf:/opt/docker/etc/nginx/vhost.common.d/10-location-custom.conf:ro"
-      # - "${APPLICATION_CONFIG_DIR}/supervisor/worker.conf:/opt/docker/etc/supervisor.d/worker.conf:ro"
+      # - ${APPLICATION_CONFIG_DIR}/nginx/10-location-custom.conf:/opt/docker/etc/nginx/vhost.common.d/10-location-custom.conf:ro
+      # - ${APPLICATION_CONFIG_DIR}/supervisor/worker.conf:/opt/docker/etc/supervisor.d/worker.conf:ro
