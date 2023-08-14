@@ -15,15 +15,20 @@ services:
     networks:
       - proxy
     environment:
+      - APPLICATION_ENV=${APPLICATION_ENV}
       - APPLICATION_UID=${APPLICATION_USER_ID}
       - APPLICATION_GID=${APPLICATION_GROUP_ID}
+      - PHP_MAX_EXECUTION_TIME=${APPLICATION_PHP_MAX_EXECUTION_TIME}
+      - PHP_MEMORY_LIMIT=${APPLICATION_PHP_MEMORY_LIMIT}
       - PHP_POST_MAX_SIZE=${APPLICATION_PHP_POST_MAX_SIZE}
       - PHP_UPLOAD_MAX_FILESIZE=${APPLICATION_PHP_UPLOAD_MAX_FILESIZE}
       - SERVICE_NGINX_CLIENT_MAX_BODY_SIZE=${APPLICATION_SERVICE_NGINX_CLIENT_MAX_BODY_SIZE}
       - WEB_DOCUMENT_ROOT=${APPLICATION_WEB_DOCUMENT_ROOT:-/app}
+      - WEB_HTTPS_DOMAIN=${APPLICATION_WEB_HTTPS_DOMAIN}
       - WEB_ALIAS_DOMAIN=${APPLICATION_WEB_ALIAS_DOMAIN}
     volumes:
       - ${APPLICATION_PROJECT_DIR}:/app
-      ## Uncomment if using laravel (custom your config)
+      # - ${APPLICATION_CONFIG_DIR}/nginx/10-secure-codeigniter.conf:/opt/docker/etc/nginx/vhost.common.d/10-secure-codeigniter.conf:ro
       # - ${APPLICATION_CONFIG_DIR}/nginx/10-location-custom.conf:/opt/docker/etc/nginx/vhost.common.d/10-location-custom.conf:ro
       # - ${APPLICATION_CONFIG_DIR}/supervisor/worker.conf:/opt/docker/etc/supervisor.d/worker.conf:ro
+      # - ${APPLICATION_CONFIG_DIR}/supervisor/scheduler.conf:/opt/docker/etc/supervisor.d/scheduler.conf:ro
