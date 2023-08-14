@@ -9,19 +9,30 @@ Base image from `Webdevops` **PHP** and **PHP-NGINX**
 ## Docker Compose environment variables
 
 ```ini
+# Docker compose envvars
+# Linux user using `${PWD}`, other os `.`
+CURDIR=${PWD}
+
+## Change CodeIgniter environment: [development, staging, production]
+APPLICATION_ENV=development
 APPLICATION_USER_ID=1000
 APPLICATION_GROUP_ID=1000
 APPLICATION_HTTP_PORT=80
-APPLICATION_HTTPS_PORT=43
-APPLICATION_PHP_POST_MAX_SIZE=50M
-APPLICATION_PHP_UPLOAD_MAX_FILESIZE=50M
+APPLICATION_HTTPS_PORT=443
+APPLICATION_PHP_MAX_EXECUTION_TIME=100000
+APPLICATION_PHP_MEMORY_LIMIT=200M
+APPLICATION_PHP_POST_MAX_SIZE=10M
+APPLICATION_PHP_UPLOAD_MAX_FILESIZE=10M
 APPLICATION_SERVICE_NGINX_CLIENT_MAX_BODY_SIZE=50M
-## For MS Windows example: //c/Users/asap/application/php-app
-APPLICATION_PROJECT_APP_DIR=/home/application/php-app
-APPLICATION_CONFIG_DIR=./src/config
+APPLICATION_PROJECT_DIR=/home/application/php-app
+APPLICATION_CONFIG_DIR=$(CURDIR)/src/config
 ## For Laravel app: APPLICATION_WEB_DOCUMENT_ROOT=/app/public
-APPLICATION_WEB_APP_DOCUMENT_ROOT=/app
-APPLICATION_WEB_APP_ALIAS_DOMAIN=app.jogjascript.com
+APPLICATION_WEB_DOCUMENT_ROOT=/app
+## For Codeigniter force https:
+APPLICATION_WEB_HTTPS_DOMAIN=true
+APPLICATION_WEB_ALIAS_DOMAIN=app.jogjascript.com
+# Setup proxy with traefik entrypoint: http | https
+APPLICATION_WEB_PROXY_ENTRYPOINT=http
 ```
 
 ## Make sure docker network exist:
