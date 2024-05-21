@@ -10,9 +10,6 @@ Base image from `Webdevops` **PHP** and **PHP-NGINX**
 
 ```ini
 # Docker compose envvars
-# Linux user using `${PWD}`, other os `.`
-CURDIR=${PWD}
-
 ## Change CodeIgniter environment: [development, staging, production]
 APPLICATION_ENV=development
 APPLICATION_USER_ID=1000
@@ -25,7 +22,7 @@ APPLICATION_PHP_POST_MAX_SIZE=10M
 APPLICATION_PHP_UPLOAD_MAX_FILESIZE=10M
 APPLICATION_SERVICE_NGINX_CLIENT_MAX_BODY_SIZE=50M
 APPLICATION_PROJECT_DIR=/home/application/php-app
-APPLICATION_CONFIG_DIR=$(CURDIR)/src/config
+APPLICATION_CONFIG_DIR=${PWD}/src/config
 ## For Laravel app: APPLICATION_WEB_DOCUMENT_ROOT=/app/public
 APPLICATION_WEB_DOCUMENT_ROOT=/app
 ## For Codeigniter force https:
@@ -58,6 +55,14 @@ Initial docker compose commands:
 
 ```bash
 make compose-init
+```
+
+```bash
+make up
+
+make down
+
+make logs
 ```
 
 ## Web environment variables
