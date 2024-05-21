@@ -42,8 +42,8 @@ compose-init: compose/.env ## Docker compose initial environment
 compose-init:
 	@echo "Please update your docker/.env file with your settings"
 
-.PHONY: compose-clean
-compose-clean: ## Remove the .env file for docker
+.PHONY: clean
+clean: ## Remove the .env file for docker
 	@rm -f $(DOCKER_ENV_FILE)
 
 .PHONY: validate-compose-variables
@@ -58,32 +58,32 @@ validate-docker-variables:
 compose/.env:
 	@cp $(DOCKER_ENV_FILE).example $(DOCKER_ENV_FILE)
 
-.PHONY: compose-up
-compose-up: validate-compose-variables ## Create and start docker containers.
+.PHONY: up
+up: validate-compose-variables ## Create and start docker containers.
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}up${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) up -d $(DOCKER_SERVICE_APPLICATION_NAME)
 
-.PHONY: compose-restart
-compose-restart: validate-compose-variables ## Restart docker containers.
+.PHONY: restart
+restart: validate-compose-variables ## Restart docker containers.
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}restart${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) restart $(DOCKER_SERVICE_APPLICATION_NAME)
 
-.PHONY: compose-down
-compose-down: validate-compose-variables ## Stop and remove docker containers.
+.PHONY: down
+down: validate-compose-variables ## Stop and remove docker containers.
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}down${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) down --remove-orphans -v
 
-.PHONY: compose-config
-compose-config: validate-compose-variables ## List the configuration docker compose
+.PHONY: config
+config: validate-compose-variables ## List the configuration docker compose
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}config${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) config $(DOCKER_SERVICE_APPLICATION_NAME)
 
-.PHONY: compose-logs
-compose-logs: validate-compose-variables ## Logs docker containers.
+.PHONY: logs
+logs: validate-compose-variables ## Logs docker containers.
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}logs${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) logs --tail=100 -f $(DOCKER_SERVICE_APPLICATION_NAME)
 
-.PHONY: compose-ps
-compose-ps: validate-compose-variables ## Docker composer PS containers.
+.PHONY: ps
+ps: validate-compose-variables ## Docker composer PS containers.
 	@echo "${LIGHTPURPLE}❭❭${RESET} ${GREEN}DOCKER COMPOSE${RESET} ${YELLOW}[${RESET}${WHITE}▶${RESET} ${RED}ps${RESET} ${YELLOW}$(DOCKER_SERVICE_APPLICATION_NAME)]${RESET}${LIGHTPURPLE}∶${RESET}"
 	@$(DOCKER_COMPOSE) ps $(DOCKER_SERVICE_APPLICATION_NAME)
