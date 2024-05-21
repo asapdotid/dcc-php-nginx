@@ -35,3 +35,4 @@ services:
       - traefil.docker.network=proxy
       - traefik.http.routers.project-app.entrypoints=${APPLICATION_WEB_PROXY_ENTRYPOINT}
       - traefik.http.routers.project-app.rule=Host(`${APPLICATION_WEB_ALIAS_DOMAIN}`)
+      - traefik.http.services.project-app.loadbalancer.server.port=80
