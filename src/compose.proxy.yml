@@ -25,7 +25,6 @@ services:
       - WEB_HTTPS_DOMAIN=${APPLICATION_WEB_HTTPS_DOMAIN}
       - WEB_ALIAS_DOMAIN=${APPLICATION_WEB_ALIAS_DOMAIN}
     volumes:
-      - ${APPLICATION_PROJECT_DIR}:/app
       - ${APPLICATION_PROJECT_DIR}/current:/app
       - ${APPLICATION_PROJECT_DIR}/storage:/app/storage
       - ${APPLICATION_CONFIG_DIR}/nginx/10-security.conf:/opt/docker/etc/nginx/vhost.common.d/10-security.conf:ro
