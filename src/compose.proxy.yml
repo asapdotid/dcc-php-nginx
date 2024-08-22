@@ -3,6 +3,9 @@ networks:
   proxy:
     driver: bridge
     external: true
+  secure:
+    driver: bridge
+    external: true
 
 services:
   application:
@@ -12,6 +15,7 @@ services:
       - 80
     networks:
       - proxy
+      - secure
     environment:
       - APPLICATION_ENV=${APPLICATION_ENV}
       - APPLICATION_UID=${APPLICATION_USER_ID}

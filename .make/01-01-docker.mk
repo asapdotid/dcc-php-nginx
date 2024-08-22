@@ -37,14 +37,10 @@ endif
 
 ##@ [Docker: Compose commands]
 
-.PHONY: compose-init
-compose-init: compose/.env ## Docker compose initial environment
-compose-init:
-	@echo "Please update your docker/.env file with your settings"
-
-.PHONY: clean
-clean: ## Remove the .env file for docker
-	@rm -f $(DOCKER_ENV_FILE)
+.PHONY: set-env
+set-env: compose/.env ## Docker compose initial environment
+set-env:
+	@echo "Please update your src/.env file with your settings"
 
 .PHONY: validate-compose-variables
 validate-docker-variables:

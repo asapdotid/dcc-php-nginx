@@ -1,18 +1,16 @@
 ##@ [Laravel: Setup]
 
-.PHONY: set-setup
-set-setup: ## Setup Larvel application
-	"$(MAKE)" set-init
+.PHONY: setup-laravel
+setup-laravel: ## Setup Larvel application
+	"$(MAKE)" laravel-env
 	"$(MAKE)" composer ARGS="install"
 	"$(MAKE)" artisan-key
 
 ## Usage:
-## set-init
-##
-## setup-init ENVS="KEY_1=value1 KEY_2=value2"
-.PHONY: set-init
-set-init: ENVS= ## Initializes the .env file with ENV variables for laravel
-set-init:
+## laravel-env ENVS="KEY_1=value1 KEY_2=value2"
+.PHONY: laravel-env
+laravel-env: ENVS= ## Initializes the .env file with ENV variables for laravel
+laravel-env:
 	@$(EXECUTE_IN_APPLICATION_CONTAINER) cp .env.example .env
 	@for variable in $(ENVS); do \
 	    $(EXECUTE_IN_APPLICATION_CONTAINER) echo $$variable | tee -a .env; \
