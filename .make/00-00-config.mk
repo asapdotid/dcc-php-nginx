@@ -10,7 +10,7 @@ DOCKER_SERVICE_APPLICATION_NAME:=application
 # $(DOCKER_IMAGE)        ---------------------------^      ^    php-nginx
 # $(DOCKER_IMAGE_TAG)    ----------------------------------^    8.1
 
-DOCKER_DIR:=$(CURDIR)/src
+DOCKER_DIR:=${PWD}/src
 DOCKER_ENV_FILE:=$(DOCKER_DIR)/.env
 DOCKER_COMPOSE_FILE:=$(DOCKER_DIR)/compose.yml
 DOCKER_COMPOSE_PROXY_FILE:=$(DOCKER_DIR)/compose.proxy.yml
