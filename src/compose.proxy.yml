@@ -34,8 +34,8 @@ services:
       - ${APPLICATION_CONFIG_DIR}/nginx/10-security.conf:/opt/docker/etc/nginx/vhost.common.d/10-security.conf:ro
       # - ${APPLICATION_CONFIG_DIR}/nginx/10-secure-codeigniter.conf:/opt/docker/etc/nginx/vhost.common.d/10-secure-codeigniter.conf:ro
       # - ${APPLICATION_CONFIG_DIR}/nginx/10-location-custom.conf:/opt/docker/etc/nginx/vhost.common.d/10-location-custom.conf:ro
-      # - ${APPLICATION_CONFIG_DIR}/supervisor/worker.conf:/opt/docker/etc/supervisor.d/worker.conf:ro
-      # - ${APPLICATION_CONFIG_DIR}/supervisor/scheduler.conf:/opt/docker/etc/supervisor.d/scheduler.conf:ro
+      - ${APPLICATION_CONFIG_DIR}/supervisor/worker.conf:/opt/docker/etc/supervisor.d/worker.conf:ro
+      - ${APPLICATION_CONFIG_DIR}/supervisor/scheduler.conf:/opt/docker/etc/supervisor.d/scheduler.conf:ro
     labels:
       - traefik.enable=true
       - traefil.docker.network=proxy
